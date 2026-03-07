@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.io.StringReader;
 
-public class ValidadorFase3Test {
+public class ValidadorFase4Test {
 
     // Helper que roda o Léxico integrado com o Sintático (CUP)
     private void analisarSintaxe(String codigo) throws Exception {
