@@ -23,3 +23,10 @@ Você pode usar `String.split()`, percorrer a string com `.charAt()`, ou usar `P
 O projeto já possui testes automatizados. Abra o terminal na pasta raiz deste projeto e digite:
 ```bash
 mvn test
+```
+
+## Chegagem alternativa
+
+Se você fizer um fork do repositório, pode colocar sua resposta no arquivo LexerManual.java e, quando fizer o push para seu repositório com uma resposta correta, o check ficará verde. Enquanto estiver incompleto ou com erro, a marca permanecerá vermelha:
+
+<img width="1700" height="104" alt="image" src="https://github.com/user-attachments/assets/445d555b-38c5-478f-a42b-c799cba2d937" />
