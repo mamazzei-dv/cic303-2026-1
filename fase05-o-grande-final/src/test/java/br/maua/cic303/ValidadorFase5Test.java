@@ -10,10 +10,10 @@ public class ValidadorFase5Test {
     // Roda todo o pipeline do compilador e devolve a memória (Environment) final
     private Environment executarPrograma(String codigo) throws Exception {
         Lexer lexer = new Lexer(new StringReader(codigo));
-        Parser parser = new Parser(lexer);
-        parser.parse(); // Fase 3 e 4: Gera a AST
+        parser parser1 = new parser(lexer);
+        parser1.parse(); // Fase 3 e 4: Gera a AST
 
-        ASTNode root = parser.root;
+        ASTNode root = parser1.root;
         Environment env = new Environment(); // Fase 5: Cria a memória
 
         root.avaliar(env); // Fase 5: Executa o programa!

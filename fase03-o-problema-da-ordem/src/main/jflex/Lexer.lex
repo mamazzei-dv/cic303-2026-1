@@ -1,18 +1,24 @@
 package br.maua.cic303;
 
+import java_cup.runtime.Symbol; // Importação necessária para o CUP
+
 %%
 
 %class Lexer
 %public
 %unicode
-%type Token
+%cup       // <-- CRÍTICO: Esta diretiva ativa a integração com o CUP
 %line
 %column
 
 %{
-    // Função auxiliar para gerar Tokens
-    private Token token(Tag tag, String lexeme) {
-        return new Token(tag, lexeme);
+    // Funções auxiliares para gerar objetos Symbol para o CUP
+    private Symbol symbol(int type) {
+        return new Symbol(type, yyline, yycolumn);
+    }
+    
+    private Symbol symbol(int type, Object value) {
+        return new Symbol(type, yyline, yycolumn, value);
     }
 %}
 
@@ -35,7 +41,7 @@ Identifier = {Letter}({Letter}|{Digit}|_){0,31}
 
 %%
 /* ========================================================================= */
-/* REGRAS LÉXICAS                                                            */
+/* REGRAS LÉXICAS (Altere para retornar sym.XXX)                                 */
 /* ========================================================================= */
 
 <YYINITIAL> {
@@ -44,36 +50,34 @@ Identifier = {Letter}({Letter}|{Digit}|_){0,31}
     {WhiteSpace}    { /* Não faz nada */ }
 
     /* TODO 3: Palavras Reservadas (if, then, else, while) */
-    "if"            { return token(Tag.IF, yytext()); }
-    "then"          { return token(Tag.THEN, yytext()); }
+    "if"            { return symbol(sym.IF); }
+    "then"          { return symbol(sym.THEN); }
     /* Adicione as demais aqui... */
 
     /* TODO 4: Pontuação ( ) { } ; */
-    "("             { return token(Tag.LPAREN, yytext()); }
+    \(              { return symbol(sym.LPAREN); }
     /* Adicione as demais aqui... */
 
     /* TODO 5: Operadores de Atribuição e Relacionais (=, ==, !=, <, >, <=, >=) */
     /* CUIDADO COM A ORDEM! O JFlex casa a regra que aparece primeiro se houver empate de tamanho. */
     /* Coloque os operadores duplos antes dos simples! */
-    "="             { return token(Tag.ASSIGN, yytext()); }
+    "="             { return symbol(sym.ASSIGN); }
     /* Adicione os relacionais aqui e retorne Tag.REL_OP ... */
 
     /* TODO 6: Operadores Matemáticos (+, -, *, /, %) */
     /* Dica: "+" | "-" retornam Tag.ADD_OP. Os outros retornam Tag.MUL_OP */
-    "+" | "-"       { return token(Tag.ADD_OP, yytext()); }
+    "+" | "-"       { return symbol(sym.ADD_OP, yytext()); }
     /* Adicione as multiplicações aqui... */
 
     /* Regras para as Macros */
-    {Identifier}    { return token(Tag.ID, yytext()); }
-    {Number}        { return token(Tag.NUMBER, yytext()); }
+    {Identifier}    { return symbol(sym.ID, yytext()); }
+    {Number}        { return symbol(sym.NUMBER, yytext()); }
 
     /* Identificadores grandes demais (Captura o erro) */
-    {Letter}({Letter}|{Digit}|_){32} { 
-        return token(Tag.ERROR, "Erro Léxico: Identificador ultrapassou 32 caracteres -> " + yytext()); 
-    }
+   {OversizedIdentifier} { throw new RuntimeException("Erro Léxico: Identificador gigante -> " + yytext()); }
 
     /* Fallback: Qualquer outro caractere não reconhecido gera um Erro */
-    .               { return token(Tag.ERROR, "Erro Léxico: Caractere Ilegal -> " + yytext()); }
+    .   {throw new RuntimeException("Erro Léxico: Caractere Ilegal -> " + yytext()); }
 }
 
 /* Regra para o Final do Arquivo */

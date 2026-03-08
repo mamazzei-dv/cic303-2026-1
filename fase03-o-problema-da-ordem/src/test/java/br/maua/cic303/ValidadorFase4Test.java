@@ -9,8 +9,8 @@ public class ValidadorFase4Test {
     // Helper que roda o Léxico integrado com o Sintático (CUP)
     private void analisarSintaxe(String codigo) throws Exception {
         Lexer lexer = new Lexer(new StringReader(codigo));
-        Parser parser = new Parser(lexer);
-        parser.parse(); // Se a sintaxe for inválida, lançará RuntimeException
+        parser parser1 = new parser(lexer);
+        parser1.parse(); // Se a sintaxe for inválida, lançará RuntimeException
     }
 
     @Test

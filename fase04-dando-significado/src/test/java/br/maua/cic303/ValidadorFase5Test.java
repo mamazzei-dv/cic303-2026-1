@@ -9,9 +9,9 @@ public class ValidadorFase5Test {
 
     private ASTNode compilarParaAST(String codigo) throws Exception {
         Lexer lexer = new Lexer(new StringReader(codigo));
-        Parser parser = new Parser(lexer);
-        parser.parse();
-        return parser.root; // Captura a raiz salva no passo 1 do CUP
+        parser parser1 = new parser(lexer);
+        parser1.parse();
+        return parser1.root; // Captura a raiz salva no passo 1 do CUP
     }
 
     @Test
