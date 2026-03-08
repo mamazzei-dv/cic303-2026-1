@@ -19,7 +19,7 @@ public class ValidadorFase2Test {
         return tokens;
     }
 
-    // @Test
+    @Test
     public void test01_PalavrasReservadasEPontuacao() throws Exception {
         List<Token> tokens = analisar("if ( ) then { } else while ;");
         
@@ -34,7 +34,7 @@ public class ValidadorFase2Test {
         }
     }
 
-    // @Test
+    @Test
     public void test02_OperadoresComPrecedenciaLexica() throws Exception {
         // Se o JFlex não estiver configurado direito, "==" pode ser lido como "=" e "="
         List<Token> tokens = analisar("= == != < > <= >= + - * / %");
@@ -50,7 +50,7 @@ public class ValidadorFase2Test {
         }
     }
 
-    // @Test
+    @Test
     public void test03_NotacaoCientifica() throws Exception {
         // Baseado nas especificações do PDF da linguagem JACA
         List<Token> tokens = analisar("7 3.14 6.02E23 6.02e23 6.62E-34");
@@ -63,7 +63,7 @@ public class ValidadorFase2Test {
         assertEquals("6.62E-34", tokens.get(4).lexeme);
     }
 
-    // @Test
+    @Test
     public void test04_RegraDos32Caracteres() throws Exception {
         // ID exato com 32 caracteres (Deve ser válido)
         String id32 = "A_23456789_123456789_123456789_2"; 
@@ -77,7 +77,7 @@ public class ValidadorFase2Test {
         assertEquals("O Lexer deveria recusar um ID com mais de 32 caracteres.", Tag.ERROR, t2.get(0).tag);
     }
 
-    // @Test
+    @Test
     public void test05_IgnorarEspacosEErros() throws Exception {
         // Testa se o programa ignora espaços e captura erro no @
         List<Token> tokens = analisar("   x   @   10  ");
